@@ -13,6 +13,18 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.rust_analyzer.setup({
+    settings = {
+        ["rust-analyzer"] = {
+            cargo = {
+                features = {
+                  "full",
+                }
+            },
+        }
+    }
+})
+
 vim.lsp.enable(servers)
 
 -- read :h vim.lsp.config for changing options of lsp servers 
