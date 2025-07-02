@@ -110,7 +110,7 @@ return {
 
       vim.api.nvim_create_autocmd({'BufEnter'}, {
         pattern = {'*'},
-        callback = function(ev)
+        callback = function()
           vim.call('ncm2#enable_for_buffer')
         end
       })
