@@ -51,17 +51,16 @@ return {
     'saecki/crates.nvim',
     ft = {"toml"},
     config = function()
-      local crates  = require('crates')
-      crates.setup()
+      require("crates").setup {
+        completion = {
+          cmp = {
+            enabled = true
+          },
+        },
+      }
       require('cmp').setup.buffer({
         sources = { { name = "crates" }}
       })
-      crates.show()
-      require("crates").setup {
-        completion = {
-          enabled = true
-        },
-      }
     end
   },
 
@@ -72,4 +71,54 @@ return {
       vim.g.rustfmt_autosave = 1
     end
   },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = 'nvim-tree/nvim-web-devicons'
+  },
+
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons'
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim", "lua", "vimdoc", "html", "css", "c", "query", 'markdown', 'markdown_inline',
+      },
+    },
+  },
+
+  { vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    callback = function()
+    vim.hl.on_yank {higroup='Visual', timeout=300}
+    end,
+    })
+  },
+  -- requirements
+  { "roxma/nvim-yarp" },
+
+  {
+    "ncm2/ncm2",
+    config = function()
+      vim.opt.completeopt = { "noinsert", "menuone", "noselect" }
+
+      vim.api.nvim_create_autocmd({'BufEnter'}, {
+        pattern = {'*'},
+        callback = function(ev)
+          vim.call('ncm2#enable_for_buffer')
+        end
+      })
+    end,
+  },
+
+  -- NOTE: you need to install completion sources to get completions. Check
+  -- our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+  { 'ncm2/ncm2-bufword' },
+  { 'ncm2/ncm2-path' },
 }
