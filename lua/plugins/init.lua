@@ -96,13 +96,15 @@ return {
   { 
     "ellisonleao/gruvbox.nvim", 
     config = true, 
-    opts = ...
+    opts = {
+      color = "gruvbox-dark",
+    },
   },
     -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      color = "gruvbox-dark-hard",
+      color = "gruvbox-dark",
     },
   },
 
@@ -126,15 +128,6 @@ return {
     ---@module "ibl"
     ---@type ibl.config
     opts = {},
-  },
-
-  {
-  "ibhagwan/fzf-lua",
-  -- optional for icon support
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  -- or if using mini.icons/mini.nvim
-  -- dependencies = { "nvim-mini/mini.icons" },
-  opts = {}
   },
 
   {
@@ -235,6 +228,72 @@ return {
 					border = "none"
 				},
 			})
+		end
+	},-- nice bar at the bottom
+
+	{
+		'itchyny/lightline.vim',
+		lazy = false, -- also load at start since it's UI
+		config = function()
+			-- no need to also show mode in cmd line when we have bar
+			vim.o.showmode = false
+			vim.g.lightline = {
+				active = {
+					left = {
+						{ 'mode', 'paste' },
+						{ 'readonly', 'filename', 'modified' }
+					},
+					right = {
+						{ 'lineinfo' },
+						{ 'percent' },
+						{ 'fileencoding', 'filetype' }
+					},
+				},
+				component_function = {
+					filename = 'LightlineFilename'
+				},
+			}
+			function LightlineFilenameInLua(opts)
+				if vim.fn.expand('%:t') == '' then
+					return '[No Name]'
+				else
+					return vim.fn.getreg('%')
+				end
+			end
+			-- https://github.com/itchyny/lightline.vim/issues/657
+			vim.api.nvim_exec(
+				[[
+				function! g:LightlineFilename()
+					return v:lua.LightlineFilenameInLua()
+				endfunction
+				]],
+				true
+			)
+		end
+	},
+  -- inline function signatures
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			-- Get signatures (and _only_ signatures) when in argument lists.
+			require "lsp_signature".setup({
+				doc_lines = 0,
+				handler_opts = {
+					border = "none"
+				},
+			})
+		end
+	},
+  -- latex
+	{
+		"lervag/vimtex",
+		ft = { "tex" },
+		lazy = false,     -- we don't want to lazy load VimTeX
+		init = function()
+			vim.g.vimtex_view_method = "zathura"
+			vim.g.vimtex_mappings_enabled = false
 		end
 	},
 }
