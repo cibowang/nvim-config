@@ -97,14 +97,14 @@ return {
     "ellisonleao/gruvbox.nvim", 
     config = true, 
     opts = {
-      color = "gruvbox-dark",
+      color = "gruvbox",
     },
   },
     -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      color = "gruvbox-dark",
+      color = "gruvbox-black",
     },
   },
 
@@ -129,7 +129,7 @@ return {
     ---@type ibl.config
     opts = {},
   },
-
+	-- fzf support for ^p
   {
 		'ibhagwan/fzf-lua',
 		config = function()
@@ -164,6 +164,15 @@ return {
     }
     end
   },
+
+  -- auto-cd to root of git project
+	-- 'airblade/vim-rooter'
+	{
+		'notjedi/nvim-rooter.lua',
+		config = function()
+			require('nvim-rooter').setup()
+		end
+	},
 
   -- LSP-based code-completion
 	{
@@ -214,22 +223,6 @@ return {
 			})
 		end
 	},
-
-  -- inline function signatures
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			-- Get signatures (and _only_ signatures) when in argument lists.
-			require "lsp_signature".setup({
-				doc_lines = 0,
-				handler_opts = {
-					border = "none"
-				},
-			})
-		end
-	},-- nice bar at the bottom
 
 	{
 		'itchyny/lightline.vim',
@@ -294,6 +287,21 @@ return {
 		init = function()
 			vim.g.vimtex_view_method = "zathura"
 			vim.g.vimtex_mappings_enabled = false
+		end
+	},
+  -- better %
+	{
+		'andymass/vim-matchup',
+		config = function()
+			vim.g.matchup_matchparen_offscreen = { method = "popup" }
+		end
+	},
+  -- auto-cd to root of git project
+	-- 'airblade/vim-rooter'
+	{
+		'notjedi/nvim-rooter.lua',
+		config = function()
+			require('nvim-rooter').setup()
 		end
 	},
 }

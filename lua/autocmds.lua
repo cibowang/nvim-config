@@ -48,5 +48,27 @@ vim.api.nvim_create_autocmd('Filetype', {
 	command = 'setlocal spell tw=80 colorcolumn=81',
 })
 
--- except in Rust where the rule is 100 characters
-vim.api.nvim_create_autocmd('Filetype', { pattern = 'rust', command = 'set colorcolumn=100' })
+vim.api.nvim_create_autocmd('LspAttach', {
+				group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+				callback = function(ev)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          local opts = { buffer = ev.buf }
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          -- TODO: find some way to make this only apply to the current line.
+					if client.server_capabilities.inlayHintProvider then
+					    vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+					end
+          client.server_capabilities.semanticTokensProvider = nil
+          -- format on save for Rust
+					if client.server_capabilities.documentFormattingProvider then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = vim.api.nvim_create_augroup("RustFormat", { clear = true }),
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ bufnr = bufnr })
+							end,
+						})
+					end
+        end
+})

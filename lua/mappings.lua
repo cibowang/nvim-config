@@ -8,7 +8,10 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
---
+-- always set leader first!
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
+vim.g.mapleader = " "
+
 vim.keymap.set('', '<C-p>', function()
       opts = {}
       opts.cmd = 'fd --color=never --hidden --type f --type l --exclude .git'
@@ -26,6 +29,9 @@ vim.keymap.set('', '<C-p>', function()
       require'fzf-lua'.files(opts)
 end)
 
+vim.keymap.set('', 'H', '^')
+vim.keymap.set('', 'L', '$')
+
 vim.keymap.set('n', '<leader>;', function()
       require'fzf-lua'.buffers({
         -- just include the paths in the fzf bits, and nothing else
@@ -39,3 +45,25 @@ vim.keymap.set('n', '<leader>;', function()
         header = false,
       })
 end)
+
+-- use fzf to search buffers as well
+vim.keymap.set('n', '<leader>;', function()
+  require'fzf-lua'.buffers({
+    -- just include the paths in the fzf bits, and nothing else
+    -- https://github.com/ibhagwan/fzf-lua/issues/2230#issuecomment-3164258823
+    fzf_opts = {
+      ["--with-nth"]      = "{-3..-2}",
+      ["--nth"]           = "-1",
+      ["--delimiter"]     = "[:\u{2002}]",
+      ["--header-lines"]  = "false",
+    },
+    header = false,
+  })
+end)
+
+-- Global mappings.
+			-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+			vim.keymap.set('n', '<leader>q', vim.diagnostic.open_float)
+			vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+			vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+			vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
