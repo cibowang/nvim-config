@@ -10,6 +10,44 @@ vim.opt.foldenable = false
 vim.opt.foldmethod = 'manual'
 vim.opt.foldlevelstart = 99
 
+-- enable syntax highlighting
+vim.opt.syntax = "on"
+
+-- set encodings
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
+
+-- indentation, 4 spaces for a tab
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+
+-- automatically insert tabs
+vim.opt.smarttab = true
+
+-- replace tab with spaces
+vim.opt.expandtab = true
+
+-- enable tabline if a tab is there
+vim.opt.showtabline = 1
+
+-- enable better colors
+vim.opt.termguicolors = true
+
+-- better searching
+vim.opt.incsearch = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = false
+
+-- disable backups
+vim.opt.backup = false
+vim.opt.background = "dark"
+
+-- display the current line different from the rest of the file
+vim.opt.cursorline = true
+
+-- disable swap files
+vim.opt.swapfile = false
+
 -- keep more context on screen while scrolling
 vim.opt.scrolloff = 2
 

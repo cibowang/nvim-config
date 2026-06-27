@@ -17,6 +17,7 @@ return {
 						cargo = {
 							features = "all",
 						},
+                files = { watcher = "server" },
 						checkOnSave = {
 							enable = true,
 						},
@@ -28,6 +29,12 @@ return {
 								enable = false,
 							},
 						},
+            inlayHints = {
+              bindingModeHints = { enabled = true },
+              closureCaptureHints = { enabled = true },
+              closureReturnTypeHints = { enable = "always" },
+				      maxLength = 100,
+            },
 						completion = {
 							postfix = {
 								enable = false,
@@ -36,7 +43,6 @@ return {
 					},
 				},
 			})
-			vim.lsp.enable('rust_analyzer')
     end,
   },
 
@@ -77,13 +83,24 @@ return {
 
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = 'nvim-tree/nvim-web-devicons'
+    dependencies = 'nvim-tree/nvim-web-devicons',
+        opts = {
+            theme = "palenight"
+        }
   },
 
   {
     'akinsho/bufferline.nvim',
     version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons'
+    dependencies = 'nvim-tree/nvim-web-devicons',
+        opts = {
+            -- only display tabs, hide buffers
+            -- mode = "tabs",
+            -- style for kitty terminal
+            separator_style = "slant",
+            -- display coc diagnostics
+            diagnostics = "coc"
+        }
   },
 
   {
@@ -96,7 +113,7 @@ return {
   },
 
   {
-		"wincent/base16-nvim",
+    "wincent/base16-nvim",
     name = "base16",
 		lazy = false, -- load at start
 		priority = 1000, -- load first
@@ -120,18 +137,11 @@ return {
 		end
 	},
 
-  { 
-    "ellisonleao/gruvbox.nvim", 
-    config = true, 
-    opts = {
-      color = "gruvbox",
-    },
-  },
     -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      color = "gruvbox-black",
+      color = "base16",
     },
   },
 
@@ -162,6 +172,7 @@ return {
 		config = function()
 			-- stop putting a giant window over my editor
     require'fzf-lua'.setup{
+      -- nbsp = "\xc2\xa0",
       winopts = {
         split = "belowright 10new",
         preview = {
@@ -291,22 +302,7 @@ return {
 			)
 		end
 	},
-  -- inline function signatures
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			-- Get signatures (and _only_ signatures) when in argument lists.
-			require "lsp_signature".setup({
-				doc_lines = 0,
-				handler_opts = {
-					border = "none"
-				},
-			})
-		end
-	},
-  -- latex
+    -- latex
 	{
 		"lervag/vimtex",
 		ft = { "tex" },
@@ -331,4 +327,18 @@ return {
 			require('nvim-rooter').setup()
 		end
 	},
+  -- auto-pair
+  {
+    'jiangmiao/auto-pairs',
+		config = function()
+			require('auto-pair').setup()
+		end
+  },
+  -- comment helper
+  {
+    'tpope/vim-commentary',
+		config = function()
+			require('nvim-commentary').setup()
+		end
+  },
 }
