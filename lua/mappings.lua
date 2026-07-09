@@ -14,6 +14,16 @@ vim.g.mapleader = " "
 
 vim.keymap.set("n", "<C-f>", ":Rg<CR>", {silent = true})
 
+-- make j and k move by visual line, not actual line, when text is soft-wrapped
+vim.keymap.set('n', 'j', 'gj')
+vim.keymap.set('n', 'k', 'gk')
+
+-- let the left and right arrows be useful: they can switch buffers
+vim.keymap.set('n', '<left>', ':bp<cr>')
+vim.keymap.set('n', '<right>', ':bn<cr>')
+vim.keymap.set('n', '<leader>w', '<cmd>w<cr>')
+-- make missing : less annoying
+vim.keymap.set('n', ';', ':')
 vim.keymap.set("n", '<C-p>', function()
       opts = {}
       opts.cmd = 'fd --color=never --hidden --type f --type l --exclude .git'
