@@ -17,7 +17,7 @@ return {
 						cargo = {
 							features = "all",
 						},
-                files = { watcher = "server" },
+                        files = { watcher = "server" },
 						checkOnSave = {
 							enable = true,
 						},

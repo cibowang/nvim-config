@@ -12,7 +12,7 @@ map("i", "jk", "<ESC>")
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<C-f>", ":Rg<CR>", {silent = true})
+-- vim.keymap.set("n", "<C-f>", ":Rg<CR>", {silent = true})
 
 -- make j and k move by visual line, not actual line, when text is soft-wrapped
 vim.keymap.set('n', 'j', 'gj')
@@ -24,6 +24,8 @@ vim.keymap.set('n', '<right>', ':bn<cr>')
 vim.keymap.set('n', '<leader>w', '<cmd>w<cr>')
 -- make missing : less annoying
 vim.keymap.set('n', ';', ':')
+-- vim.keymap.set("n", '<C-p>', ':FzfLua files<CR>', { silent = true })
+-- vim.keymap.set("n", '<leader>fb', ':FzfLua buffers<CR>', { silent = true })
 vim.keymap.set("n", '<C-p>', function()
       opts = {}
       opts.cmd = 'fd --color=never --hidden --type f --type l --exclude .git'
@@ -67,18 +69,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 -- <leader><leader> toggles between buffers
 vim.keymap.set('n', '<leader><leader>', '<c-^>')
--- let the left and right arrows be useful: they can switch buffers
-vim.keymap.set('n', '<left>', ':bp<cr>')
-vim.keymap.set('n', '<right>', ':bn<cr>')
-vim.keymap.set('n', '<gd>', vim.lsp.buf.definition, opts)
-vim.keymap.set('n', '<gD>', vim.lsp.buf.declaration, opts)
-vim.keymap.set('n', '<gi>', vim.lsp.buf.implementation, opts)
-vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folder()))
-end, opts)
 vim.keymap.set('n', '<C-j>', '<Esc>')
 vim.keymap.set('i', '<C-j>', '<Esc>')
 vim.keymap.set('v', '<C-j>', '<Esc>')
